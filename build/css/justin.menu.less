@@ -1,0 +1,72 @@
+@import './helpers.config.less';
+@import './site.config.less';
+
+#main-menu {
+    position: relative;
+    width: 100%;
+    z-index: 200;
+
+    //background: @menuBG;
+
+    .transition(@speed: 0.3s);
+
+    @media all and (max-width: @mobileBreakpoint) {
+        position: fixed;
+        width: 100vw;
+        height: 100vh; 
+        top: 0px;
+        left: 0px;
+        z-index: 202;
+        transform: translateX(100vw);
+
+        &.is-active {
+            transform: translateX(100px);
+
+            ul {
+                float: none;        
+                list-style: none;
+                //height: @headerHeight;
+                margin-top: 2px;
+                li {
+                    float: none;
+                    padding: 10px 0;
+                    .pointer;
+
+                    > a {
+                        color: white;
+                        text-decoration: none;
+                        padding: 15px 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.viewport {
+
+    .transition(@speed: 0.3s);
+
+    @media all and (max-width: @mobileBreakpoint) {
+        &.menu-is-active {
+            z-index: 200;
+            transform: translateX(-100px);
+        }
+    }
+}
+
+.mask {
+    @media all and (max-width: @mobileBreakpoint) {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        &.is-active {
+            z-index: 201;
+            background: rgba(0,0,0,0.7);
+        } 
+    }
+}

@@ -1,0 +1,185 @@
+/*
+ * helper mixins
+ *
+ * .text(@size: 10) {
+ *      font-size: e(%("%dpx", @size));
+ *      line-height: e(%("%dem", @size/10));
+ * } 
+ * where %d == @size, this is a "Trim" function which removes whitespace and properly writes a value for an attribute.
+ * you can see below in .transistion(@arguments) that we use it to write the proper transition types per browser
+ *
+ **/ 
+
+.center-block() {
+    left: -50%;
+    .move(50%, -50%);
+}
+
+.move(@x: 0; @y: 0) {
+  & when not (@x = 0) {
+    & when  (@y = 0) {
+        -moz-transform:    translateX(@x);
+        -webkit-transform: translateX(@x);
+        -o-transform:      translateX(@x);
+        -ms-transform:     translateX(@x);
+        transform:         translateX(@x);
+    }
+  }
+  
+  & when not (@y = 0) {
+    & when (@x = 0) {
+        -moz-transform:    translateY(@y);
+        -webkit-transform: translateY(@y);
+        -o-transform:      translateY(@y);
+        -ms-transform:     translateY(@y);
+        transform:         translateY(@y);
+    }
+  }
+  
+  & when not (@x = 0) {
+    & when not (@y = 0) {
+        -moz-transform:    translateX(@x) translateY(@y);
+        -webkit-transform: translateX(@x) translateY(@y);
+        -o-transform:      translateX(@x) translateY(@y);
+        -ms-transform:     translateX(@x) translateY(@y);
+        transform:         translateX(@x) translateY(@y);
+    }
+  }
+}
+
+.scale(@width: 1; @height: 1;) {
+    @w: @width;
+    @h: @height; 
+   
+    -webkit-transform: scale(@w, @h);
+    -moz-transform: scale(@w, @h);
+    -ms-transform: scale(@w, @h);
+    -o-transform: scale(@w, @h);
+    transform: scale(@w, @h);
+}
+
+#border {
+    .border(@arguments) {
+        border: @arguments;
+    }
+    
+    .radius(@radius: 5px) {
+        -webkit-border-radius: @radius;
+        -moz-border-radius:    @radius;
+        border-radius:         @radius;
+    }
+}
+
+.box-shadow(@horz: 0; @vert: 0; @blur: 10px; @spread: 0; @rgb: rgba(0,0,0,1)) when(iscolor(@rgb)) {
+    -webkit-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+.text-shadow(@horz: 1px; @vert: 1px; @blur: 0; @rgb: rgba(0,0,0,0.7)) {
+    text-shadow: @arguments;
+}
+
+.appearance(@type: none) {
+  -webkit-appearance: @arguments;
+  -moz-appearance: @arguments;
+  appearance: @arguments;
+}
+
+.font(@family: 'Century Gothic', 'Sans Serif'; @size: 1rem; @bold: false;) {  
+  @f: @family;
+  @s: @size;
+  @b: @bold;
+  
+  & when not (@b = false) {
+    font-weight: bold;
+  }
+    
+  font-family: @f;
+  font-size: @s;
+}
+
+.transition(@type: all; @speed: 0.2s; @ease: ease) {
+  @t: @type;
+  @s: @speed;
+  @e: @ease;
+    
+  & when (@t = all) {
+    -webkit-transition: all @speed @ease;
+    -moz-transition:    all @speed @ease;
+    -ms-transition:     all @speed @ease;
+    -o-transition:      all @speed @ease;
+    transition:         all @speed @ease;
+  }
+  
+  & when not (@t = all) {
+    -webkit-transition: e(%("-webkit-%d", @t)) @s @e;
+    -moz-transition:    e(%("-moz-%d", @t))  @s @e;
+    -ms-transition:     e(%("-ms-%d", @t))  @s @e;
+    -o-transition:      e(%("-o-%d", @t))  @s @e;
+    transition:         @t @s @e;
+  }
+  
+}
+
+.no-margin(@top: true; @right: true; @bottom: true; @left: true; @all: false) {
+
+    & when (@all = false) {
+        & when (@top = false) {
+            margin-top: 0px;
+        }
+        
+        & when (@right = false) {
+            margin-right: 0px;
+        }
+        
+        & when (@bottom = false) {
+            margin-bottom: 0px;
+        }
+        
+        & when (@left = false) {
+            margin-left: 0px;
+        }
+    }
+
+    & when not (@all = false) {
+        margin: 0px;
+    }
+    
+}
+
+.no-padding(@top: true; @right: true; @bottom: true; @left: true; @all: false) {
+
+    & when (@all = false) {
+        & when (@top = false) {
+            padding-top: 0px;
+        }
+        
+        & when (@right = false) {
+            padding-right: 0px;
+        }
+        
+        & when (@bottom = false) {
+            padding-bottom: 0px;
+        }
+        
+        & when (@left = false) {
+            padding-left: 0px;
+        }
+    }
+
+    & when not (@all = false) {
+        padding: 0px;
+    }
+}
+
+.uppercase() {
+    text-transform: uppercase;
+}
+
+.bold() {
+    font-weight: bold;
+}
+
+.pointer() {
+    cursor: pointer;
+}

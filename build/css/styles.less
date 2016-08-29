@@ -1,0 +1,223 @@
+@import './helpers.config.less';
+@import './site.config.less';
+
+//@footerHeight: 52px;
+
+a {
+    &:hover {
+        text-decoration: none;
+    }
+} 
+
+header {
+    width: 100%;
+}
+
+nav {
+    background: @headerbg;
+} 
+
+
+#main-menu {
+    
+    a.logo {
+        float: left;
+        color: white;
+
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+    } 
+ 
+    ul {
+        float: right;
+        list-style: none;
+        //height: @headerHeight;
+        margin-top: 2px;
+        li {
+            float: left;
+            padding: 10px 0;
+            .pointer;
+
+            > a {
+                color: white;
+                text-decoration: none;
+                padding: 15px 20px;
+
+                &.active {
+                    background: @menuBorderBottom;
+                }
+            }
+        }
+    }
+
+    .menu-close {
+        position: relative;
+        .move(@x: -50%);    
+        z-index: 203;
+        width: 82px;
+        height: 32px;
+
+        margin-top: 10px;
+        opacity: 0;
+        left: 100%;
+        .transition(@speed: 0.3s);
+
+        &.show {
+            opacity: 1;
+            display: block;
+            left: 0;
+        }
+    }
+} 
+
+#mobile-menu {
+    padding: 15px;
+
+    .logo {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .mobile-menu-icon {
+        //width: 32px;
+        //height: 32px;
+        background: @headerbg;
+        border: 1px solid #fafafa;
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding: 4px 15px;
+    }
+}
+
+.viewport {
+    position: relative; 
+    width: 100%;
+    //min-height: calc(~"100vh - "(@headerHeight));
+    .transition(@speed: 0.3s);
+
+    > div {
+        width: 100%;
+    }
+}
+
+//Treating the body as a namespace.
+body {
+
+    &#home {
+        .full-bg-img {
+            padding: 60px;
+            background-image: url('http://justin.tinytank.net/img/home-bg.jpg');      
+        } 
+
+        .hero {
+            text-align: right;
+            margin-top: 15vh;
+            color: white;            
+            .text-shadow;
+
+            h1 {
+                font-size: 4rem;
+            }
+
+            p {
+                font-size: 2rem;
+            }
+        }
+
+        section.text-content {
+            padding: 50px 0;
+        }
+    }
+
+    footer {
+        position: fixed; 
+        bottom: 0;
+        left: 0;
+        
+        .transition(@speed: 0.3s);
+
+        background: @headerbg;
+        color: lighten(@headerbg, 20%);
+        height: @footerHeight;
+        width: 100%;
+
+        padding-top: calc(@footerHeight / 4);
+    }
+
+    section {
+        @full-bg-img();
+    }
+}
+
+// Extra small screen / phone
+// 544px
+@media (max-width: @mobileBreakpoint) {
+
+    #main-menu {    
+        .container {
+            .no-margin( @left:false; @right: false );
+            .no-padding( @left:false; @right: false );
+        }
+        ul {
+
+            width: 100%;
+            .no-padding( @left: false ); 
+
+            li {
+                > a {
+                    width: 100%;
+                    display: block;
+                    padding: 15px 20px;
+                }
+            }
+        }
+    }
+
+    body#home {
+        .full-bg-img {
+            background-position-x: 10%;
+            padding: 20px 50px 0px 10px;
+        }
+
+        .hero {
+            .no-margin( @top: false );
+
+            text-align: left;
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            p {                
+                margin-top: 37vh;
+                font-size: 1.35rem;
+            }
+
+        }
+
+        section {
+            &.full-bg-img {
+                height: 90vh
+            }
+        }
+    }
+    
+}
+
+// Medium screen / tablet
+// 768px
+@media (max-width: 48em) {
+}
+
+// Large screen / desktop
+// 992px
+@media (max-width: 62em) {
+}
+
+// Extra large screen / wide desktop
+// 1200px
+@media (max-width: 75em) {
+}

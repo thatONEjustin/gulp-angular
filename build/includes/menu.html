@@ -1,0 +1,43 @@
+<header>         
+
+    <nav id="mobile-menu" class="menu hidden-lg-up">
+
+        <a class="logo pull-xs-left" href="#/">
+            Hi, I'm Justin
+        </a>
+
+        <button class="mobile-menu-icon pull-xs-right toggle">
+            <i class="ion-navicon"></i>
+        </button>
+
+        <div class="clearfix"></div>
+
+    </nav>       
+
+    <nav id="main-menu" class="menu menu-pushRight" ng-controller="MainMenu">
+
+        <div class="container">
+
+            <a href="#/" class="logo hidden-lg-down">
+                Hi, I'm Justin                
+            </a>
+
+            <button class="menu-close hidden-lg-up">
+                Close X
+            </button>
+
+            <ul>
+                <li><a href="#/about" ng-class="{active:activePage == 'about'}">About</a></li>
+                <li><a href="#/blog" ng-class="{active:activePage == 'blog'}">Blog</a></li>
+                <li><a href="#/portfolio" ng-class="{active:activePage == 'portfolio'}">Portfolio</a></li>
+                <li><a href="http://justin.tinytank.net/assets/resume.pdf" target="_blank">Resume</a></li>
+                <li><a href="#/contact" ng-class="{active:activePage == 'contact'}">Contact</a></li>
+            </ul>
+
+        </div>
+
+        <div class="cearfix"></div>
+
+    </nav>
+
+</header>

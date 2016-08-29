@@ -1,0 +1,41 @@
+
+@menuBG: #333;
+@headerbg: #333;
+@mobileMenuBg: #fff;
+
+@menuBorderTop: #b5dbe9;
+@menuBorderBottom: #3184a1;
+
+@menuIconWidth: 32px;
+@menuIconHeight: 32px;
+
+@headerHeight: 62px;
+@footerHeight: 40px;
+
+@mobileBreakpoint: 48em;
+@desktopBreakpoint: 47.938em;
+
+@full-bg-img: {
+    &.full-bg-img {
+        min-height: calc(~"100vh - "(@footerHeight + @headerHeight));
+        
+        //min-height: 100vh;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        
+        @media all and (max-width: @mobileBreakpoint) {
+            background-size: cover;
+            width: 100%;
+            height: 40vh;
+            min-height: 0px;
+        }
+    }
+};
+
+//Global reset
+body, html {   
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
