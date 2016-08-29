@@ -5,6 +5,7 @@ var gulp = require('gulp');
 
 //watch
 var newer = require('gulp-newer');
+var del = require('del');
 
 //Plugins
 var less = require('gulp-less');
@@ -16,7 +17,7 @@ var webserv = require('gulp-webserver');
 
 var paths = {
     scripts: ['build/js/**.js'],
-    images:  ['build/images{/,/**/}**.{jpg,gif,svg,png}'],
+    images:  ['build/images/**.{jpg,gif,svg,png}', 'build/images/**/**.{jpg,gif,svg,png}'],
     html:    ['build/**.html', 'build/pages/**.html', 'build/includes/**.html'], 
     less:    ['build/css/**.less', '!build/css/*.config.less'],
     css:     ['build/css/**.css', '!build/css/**.less']  
@@ -32,7 +33,7 @@ gulp.task('copy-html', function () {
                .on('error', outputError);
 });
 
-gulp.task('copy-images', function () {
+gulp.task('copy-images', function (done) {
     return gulp.src(paths.images, base)
                .pipe(newer(dest))
                .pipe(gulp.dest(dest))
@@ -67,9 +68,16 @@ gulp.task('less', function () {
 
 gulp.task('watch', function () {
     gulp.watch(paths.html, ['copy-html']);
-    gulp.watch(paths.images, ['copy-images']);
     gulp.watch(paths.css, ['copy-css']);
-    gulp.watch(paths.less, ['less']);
+    gulp.watch(paths.less, ['less']);    
+    
+    var watchImages = gulp.watch(paths.images, ['copy-images']);  
+
+    watchImages.on('change', function (e) {
+        if(e.type === 'deleted') {
+            del(path.relative('./', e.path).replace('build', 'dist'));
+        }
+    }).on('error', outputError);
 });
 
 gulp.task('webserver', function () {
