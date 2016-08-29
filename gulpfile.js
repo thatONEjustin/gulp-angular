@@ -68,14 +68,38 @@ gulp.task('less', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.html, ['html']);
-    gulp.watch(paths.css, ['css']);
-    gulp.watch(paths.less, ['less']);    
-    gulp.watch(paths.scripts, ['scripts']);
     
-    var watchImages = gulp.watch(paths.images, ['images']);  
+    //Watchers for basic assets. This will sync the build folder 
+    //with the dist folder. 
+    var watchHtml    = gulp.watch(paths.html, ['html']);
+    var watchImages  = gulp.watch(paths.images, ['images']);    
+    var watchCss     = gulp.watch(paths.css, ['css']);    
+    var watchScripts = gulp.watch(paths.scripts, ['scripts']);
+    
+
+    //@TODO: Less file is a little more complex, and doesn't do 
+    //       a simple glob > src > dest. 
+    gulp.watch(paths.less, ['less']);           
+
+    watchHtml.on('change', function (ev) {
+        if(ev.type === 'deleted') {
+            del(path.relative('./', ev.path).replace('build', 'dist'));
+        }
+    }).on('error', outputError);
 
     watchImages.on('change', function (ev) {
+        if(ev.type === 'deleted') {
+            del(path.relative('./', ev.path).replace('build', 'dist'));
+        }
+    }).on('error', outputError);
+
+    watchCss.on('change', function (ev) {
+        if(ev.type === 'deleted') {
+            del(path.relative('./', ev.path).replace('build', 'dist'));
+        }
+    }).on('error', outputError);      
+
+    watchScripts.on('change', function (ev) {
         if(ev.type === 'deleted') {
             del(path.relative('./', ev.path).replace('build', 'dist'));
         }
