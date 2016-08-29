@@ -37,7 +37,7 @@ gulp.task('copy-html', function () {
 
 gulp.task('copy-html', function() {
     return gulp.src(paths.html.build)
-               .pipe(newer(['dist/**.html', 'dist/pages/**.html']))
+               .pipe(newer('dist{/,/**/}.html'))
                .pipe(copy('dist', { prefix: 1 }))
                .on('error', outputError);
 });
