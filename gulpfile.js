@@ -21,24 +21,15 @@ var paths = {
     images:  ['build/images{/,/**/}**.{jpg,gif,svg,png}'],
     html:    {
         build: ['build/**.html', 'build/pages/**.html'],
-        dest:  ['dist/{/,/pages/}**.html'] 
+        dest:  'dist'
     },
     less:    ['build/css/**.less', '!build/css/*.config.less']    
 }
 
-/*
-gulp.task('copy-html', function () {
-    return gulp.src(html_files)
-            .pipe(cached('copy'))
-            .pipe(copy('dist', { prefix: 1 }))
-            .on('error', outputError);
-});
-*/
-
 gulp.task('copy-html', function() {
-    return gulp.src(paths.html.build)
-               .pipe(newer('dist{/,/**/}.html'))
-               .pipe(copy('dist', { prefix: 1 }))
+    return gulp.src(paths.html.build, { base: 'build' })
+               .pipe(newer('dist'))
+               .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
