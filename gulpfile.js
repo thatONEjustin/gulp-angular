@@ -6,6 +6,7 @@ var gulp = require('gulp');
 //watch
 var newer = require('gulp-newer');
 var del = require('del');
+var path = require('path');
 
 //Plugins
 var less = require('gulp-less');
@@ -26,28 +27,28 @@ var paths = {
 var base = { base: 'build' };
 var dest = 'dist';
 
-gulp.task('copy-html', function () {
+gulp.task('html', function () {
     return gulp.src(paths.html, base)
                .pipe(newer(dest))
                .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
-gulp.task('copy-images', function (done) {
+gulp.task('images', function (done) {
     return gulp.src(paths.images, base)
                .pipe(newer(dest))
                .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
-gulp.task('copy-scripts', function () {
+gulp.task('scripts', function () {
     return gulp.src(paths.scripts, base)
                .pipe(newer(dest))
                .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
-gulp.task('copy-css', function () {
+gulp.task('css', function () {
     return gulp.src(paths.css, base)
                .pipe(newer(dest))
                .pipe(gulp.dest(dest))
@@ -67,15 +68,16 @@ gulp.task('less', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.html, ['copy-html']);
-    gulp.watch(paths.css, ['copy-css']);
+    gulp.watch(paths.html, ['html']);
+    gulp.watch(paths.css, ['css']);
     gulp.watch(paths.less, ['less']);    
+    gulp.watch(paths.scripts, ['scripts']);
     
-    var watchImages = gulp.watch(paths.images, ['copy-images']);  
+    var watchImages = gulp.watch(paths.images, ['images']);  
 
-    watchImages.on('change', function (e) {
-        if(e.type === 'deleted') {
-            del(path.relative('./', e.path).replace('build', 'dist'));
+    watchImages.on('change', function (ev) {
+        if(ev.type === 'deleted') {
+            del(path.relative('./', ev.path).replace('build', 'dist'));
         }
     }).on('error', outputError);
 });
@@ -89,7 +91,7 @@ gulp.task('webserver', function () {
         }))
 });
 
-gulp.task('build', ['copy-html', 'copy-images', 'copy-css', 'copy-scripts', 'less']);
+gulp.task('build', ['html', 'images', 'css', 'scripts', 'less']);
 gulp.task('dev', ['watch', 'webserver']);
 
 gulp.task('default', ['build', 'watch', 'webserver']);
