@@ -24,35 +24,35 @@ var paths = {
     css:     ['build/css/**.css', '!build/css/**.less']  
 }
 
-gulp.task('copy-html', function() {
+gulp.task('copy-html', function () {
     return gulp.src(paths.html, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
-gulp.task('copy-images', function() {
+gulp.task('copy-images', function () {
     return gulp.src(paths.images, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
-gulp.task('copy-scripts', function() {
+gulp.task('copy-scripts', function () {
     return gulp.src(paths.scripts, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
-gulp.task('copy-css', function() {
+gulp.task('copy-css', function () {
     return gulp.src(paths.css, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
-gulp.task('less', function() {
+gulp.task('less', function () {
     return gulp.src(paths.less, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(less())               
@@ -87,6 +87,5 @@ gulp.task('default', ['build', 'watch', 'webserver']);
 
 function outputError (error) {
     console.log(error.toString());
-
     this.emit('end');
 }
