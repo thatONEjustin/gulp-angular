@@ -4,14 +4,12 @@
 var gulp = require('gulp');
 
 //watch
-var watch = require('gulp-watch');
 var newer = require('gulp-newer');
 
 //Plugins
 var less = require('gulp-less');
 var cssmin = require('gulp-minify-css');
 var rename = require('gulp-rename');
-var copy = require('gulp-copy');
 
 //LocalServer
 var webserv = require('gulp-webserver');
@@ -24,44 +22,46 @@ var paths = {
     css:     ['build/css/**.css', '!build/css/**.less']  
 }
 
+var base = { base: 'build' };
+var dest = 'dist';
+
 gulp.task('copy-html', function () {
-    return gulp.src(paths.html, { base: 'build' })
-               .pipe(newer('dist'))
-               .pipe(gulp.dest('dist'))
+    return gulp.src(paths.html, base)
+               .pipe(newer(dest))
+               .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
 gulp.task('copy-images', function () {
-    return gulp.src(paths.images, { base: 'build' })
-               .pipe(newer('dist'))
-               .pipe(gulp.dest('dist'))
+    return gulp.src(paths.images, base)
+               .pipe(newer(dest))
+               .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
 gulp.task('copy-scripts', function () {
-    return gulp.src(paths.scripts, { base: 'build' })
-               .pipe(newer('dist'))
-               .pipe(gulp.dest('dist'))
+    return gulp.src(paths.scripts, base)
+               .pipe(newer(dest))
+               .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
 gulp.task('copy-css', function () {
-    return gulp.src(paths.css, { base: 'build' })
-               .pipe(newer('dist'))
-               .pipe(gulp.dest('dist'))
+    return gulp.src(paths.css, base)
+               .pipe(newer(dest))
+               .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
 gulp.task('less', function () {
-    return gulp.src(paths.less, { base: 'build' })
-               .pipe(newer('dist'))
+    return gulp.src(paths.less, base)
+               .pipe(newer(dest))
                .pipe(less())               
-               .pipe(gulp.dest('dist'))
+               .pipe(gulp.dest(dest))
                .on('error', outputError)
                .pipe(cssmin())               
                .pipe(rename( { suffix: '.min' }))
-               .pipe(newer('dist'))
-               .pipe(gulp.dest('dist'))
+               .pipe(gulp.dest(dest))
                .on('error', outputError);
 });
 
@@ -73,7 +73,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('webserver', function () {
-    gulp.src('dist')
+    gulp.src(dest)
         .pipe(webserv({
             livereload: true,
             port: 8080,
@@ -82,6 +82,7 @@ gulp.task('webserver', function () {
 });
 
 gulp.task('build', ['copy-html', 'copy-images', 'copy-css', 'copy-scripts', 'less']);
+gulp.task('dev', ['watch', 'webserver']);
 
 gulp.task('default', ['build', 'watch', 'webserver']);
 
