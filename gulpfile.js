@@ -19,22 +19,19 @@ var webserv = require('gulp-webserver');
 var paths = {
     scripts: ['build/js/**.js'],
     images:  ['build/images{/,/**/}**.{jpg,gif,svg,png}'],
-    html:    {
-        build: ['build/**.html', 'build/pages/**.html'],
-        dest:  'dist'
-    },
+    html:    ['build/**.html', 'build/pages/**.html'], 
     less:    ['build/css/**.less', '!build/css/*.config.less']    
 }
 
 gulp.task('copy-html', function() {
-    return gulp.src(paths.html.build, { base: 'build' })
+    return gulp.src(paths.html, { base: 'build' })
                .pipe(newer('dist'))
                .pipe(gulp.dest('dist'))
                .on('error', outputError);
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.html.build, ['copy-html']);
+    gulp.watch(paths.html, ['copy-html']);
 });
 
 gulp.task('webserver', function () {
