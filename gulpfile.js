@@ -30,20 +30,38 @@ gulp.task('copy-html', function() {
                .on('error', outputError);
 });
 
+gulp.task('copy-images', function() {
+    return gulp.src(paths.images, { base: 'build' })
+               .pipe(newer('dist'))
+               .pipe(gulp.dest('dist'))
+               .on('error', outputError);
+});
+
+gulp.task('less', function() {
+    return gulp.src(paths.less, { base: 'build' })
+               .pipe(newer('dist'))
+               .pipe(less())
+               .pipe(gulp.dest('dist'))
+               .on('error', outputError);
+});
+
 gulp.task('watch', function () {
     gulp.watch(paths.html, ['copy-html']);
+    gulp.watch(paths.images, ['copy-images']);
 });
 
 gulp.task('webserver', function () {
     gulp.src('dist')
-        .pipe(webserver({
+        .pipe(webserv({
             livereload: true,
             port: 8080,
             open: true
         }))
 });
 
-gulp.task('default', ['watch']);
+gulp.task('build', ['copy-html', 'copy-images', 'less']);
+
+gulp.task('default', ['build', 'watch', 'webserver']);
 
 function outputError (error) {
     console.log(error.toString());
